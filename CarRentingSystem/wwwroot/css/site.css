@@ -69,3 +69,8 @@ body {
   white-space: nowrap;
   line-height: 60px; /* Vertically center the text there */
 }
+
+.heading-margin {
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
