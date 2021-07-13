@@ -1,0 +1,85 @@
+﻿@model AllCarsQueryModel
+
+@{
+    ViewData["Title"] = "All Cars";
+}
+
+<form method="get">
+    <div class="row">
+        <div class="form-group col-md-4">
+            <div class="form-group">
+                <label asp-for="Brand"></label>
+                <select asp-for="Brand" class="form-control">
+                    <option value="">All</option>
+
+                    @foreach (var brand in Model.Brands)
+                    {
+                        <option value="@brand">@brand</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label asp-for="SearchTerm"></label>
+            <input asp-for="SearchTerm" class="form-control" placeholder="BMW 640D, etc...">
+        </div>
+
+        <div class="form-group col-md-4">
+            <div class="form-group">
+                <label asp-for="Sorting"></label>
+                <select asp-for="Sorting" class="form-control">
+                    <option value="0" selected>Date Created</option>
+                    <option value="1">Year</option>
+                    <option value="2">Brand And Model</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</form>
+
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+    
+    var maxPage = Math.Ceiling((double)Model.TotalCars / AllCarsQueryModel.CarsPerPage);
+}
+
+<div class="row mb-5">
+    <div class="col-md-6">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="Cars"
+           asp-action="All"
+           asp-route-currentPage="@previousPage"
+           asp-route-brand="@Model.Brand"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-sorting="@((int)Model.Sorting)"><<</a>
+    </div>
+    <div class="col-md-6">
+        <a class="btn btn-primary float-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)"
+           asp-controller="Cars" 
+           asp-action="All"
+           asp-route-currentPage="@(Model.CurrentPage + 1)"
+           asp-route-brand="@Model.Brand"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-sorting="@((int)Model.Sorting)">>></a>
+    </div>
+</div>
+
+<div class="row">
+    @foreach (var car in Model.Cars)
+    {
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <img class="card-img-top" src="@car.ImageUrl" alt="@car.Brand @car.Model - @car.Year (@car.Category)">
+                <div class="card-body text-center">
+                    <h5 class="card-title text-center">@car.Year  @car.Brand @car.Model (@car.Category)</h5>
+                    <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="btn btn-primary">View More</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
