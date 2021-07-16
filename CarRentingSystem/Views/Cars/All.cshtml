@@ -1,7 +1,7 @@
 ﻿@model AllCarsQueryModel
 
 @{
-    ViewData["Title"] = "All Cars";
+    ViewBag.Title = "All Cars";
 }
 
 <form method="get">
@@ -68,6 +68,11 @@
            asp-route-sorting="@((int)Model.Sorting)">>></a>
     </div>
 </div>
+
+@if (!Model.Cars.Any())
+{
+    <h2 class="text-center">No cars found by the given criteria!</h2>
+}
 
 <div class="row">
     @foreach (var car in Model.Cars)
