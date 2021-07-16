@@ -44,7 +44,7 @@
     {
         previousPage = 1;
     }
-    
+
     var maxPage = Math.Ceiling((double)Model.TotalCars / AllCarsQueryModel.CarsPerPage);
 }
 
@@ -60,7 +60,7 @@
     </div>
     <div class="col-md-6">
         <a class="btn btn-primary float-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)"
-           asp-controller="Cars" 
+           asp-controller="Cars"
            asp-action="All"
            asp-route-currentPage="@(Model.CurrentPage + 1)"
            asp-route-brand="@Model.Brand"

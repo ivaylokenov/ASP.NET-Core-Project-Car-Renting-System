@@ -4,14 +4,7 @@
     ViewData["Title"] = "Welcome!";
 }
 
-@{
-    var cars = Model.Cars;
-    var firstCar = cars.Any() ? cars[0] : null;
-    var secondCar = cars.Count > 1 ? cars[1] : null;
-    var thirdCar = cars.Count > 2 ? cars[2] : null;
-}
-
-@if (!cars.Any())
+@if (!Model.Cars.Any())
 {
     <div class="jumbotron">
         <h1 class="display-4">Welcome to the best place for renting cars!</h1>
@@ -27,30 +20,13 @@
 
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
-        @if (firstCar != null)
+        @for (int i = 0; i < Model.Cars.Count; i++)
         {
-            <div class="carousel-item active">
-                <img class="d-block w-100" src="@firstCar.ImageUrl" alt="@firstCar.Brand @firstCar.Model">
+            var car = Model.Cars[i];
+            <div class="carousel-item @(i == 0 ? "active" : string.Empty)">
+                <img class="d-block w-100" src="@car.ImageUrl" alt="@car.Brand @car.Model">
                 <div class="carousel-caption d-none d-md-block">
-                    <h5><a class="btn btn-primary" asp-controller="Cars" asp-action="Details" asp-route-id="@firstCar.Id">@firstCar.Year  @firstCar.Brand @firstCar.Model</a></h5>
-                </div>
-            </div>
-        }
-        @if (secondCar != null)
-        {
-            <div class="carousel-item">
-                <img class="d-block w-100" src="@secondCar.ImageUrl" alt="@secondCar.Brand @secondCar.Model">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5><a class="btn btn-primary" asp-controller="Cars" asp-action="Details" asp-route-id="@secondCar.Id">@secondCar.Year  @secondCar.Brand @secondCar.Model</a></h5>
-                </div>
-            </div>
-        }
-        @if (thirdCar != null)
-        {
-            <div class="carousel-item">
-                <img class="d-block w-100" src="@thirdCar.ImageUrl" alt="@thirdCar.Brand @thirdCar.Model">
-                <div class="carousel-caption d-none d-md-block">
-                    <h5><a class="btn btn-primary" asp-controller="Cars" asp-action="Details" asp-route-id="@thirdCar.Id">@thirdCar.Year  @thirdCar.Brand @thirdCar.Model</a></h5>
+                    <h5><a class="btn btn-primary" asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id">@car.Year  @car.Brand @car.Model</a></h5>
                 </div>
             </div>
         }

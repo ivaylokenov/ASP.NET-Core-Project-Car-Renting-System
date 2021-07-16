@@ -2,18 +2,18 @@
 {
     using System.ComponentModel.DataAnnotations;
 
-    using static DataConstants;
+    using static DataConstants.Car;
 
     public class Car
     {
         public int Id { get; init; }
 
         [Required]
-        [MaxLength(CarBrandMaxLength)]
+        [MaxLength(BrandMaxLength)]
         public string Brand { get; set; }
 
         [Required]
-        [MaxLength(CarModelMaxLength)]
+        [MaxLength(ModelMaxLength)]
         public string Model { get; set; }
 
         [Required]
@@ -27,5 +27,9 @@
         public int CategoryId { get; set; }
 
         public Category Category { get; init; }
+
+        public int DealerId { get; init; }
+
+        public Dealer Dealer { get; init; }
     }
 }
