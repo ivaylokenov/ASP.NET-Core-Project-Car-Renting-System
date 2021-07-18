@@ -59,7 +59,7 @@
            asp-route-sorting="@((int)Model.Sorting)"><<</a>
     </div>
     <div class="col-md-6">
-        <a class="btn btn-primary float-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)"
+        <a class="btn btn-primary text-right @(Model.CurrentPage == maxPage ? "disabled" : string.Empty)" style="margin-top: 10px"
            asp-controller="Cars"
            asp-action="All"
            asp-route-currentPage="@(Model.CurrentPage + 1)"
