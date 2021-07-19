@@ -1,4 +1,4 @@
-﻿namespace CarRentingSystem.Models.Cars
+﻿namespace CarRentingSystem.Models
 {
     public enum CarSorting
     {
