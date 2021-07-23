@@ -22,7 +22,7 @@
         [Authorize]
         public IActionResult Become(BecomeDealerFormModel dealer)
         {
-            var userId = this.User.GetId();
+            var userId = this.User.Id();
 
             var userIdAlreadyDealer = this.data
                 .Dealers
