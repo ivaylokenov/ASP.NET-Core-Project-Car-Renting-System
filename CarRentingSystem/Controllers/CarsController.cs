@@ -19,7 +19,7 @@
             this.cars = cars;
             this.dealers = dealers;
         }
-
+       
         public IActionResult All([FromQuery] AllCarsQueryModel query)
         {
             var queryResult = this.cars.All(
