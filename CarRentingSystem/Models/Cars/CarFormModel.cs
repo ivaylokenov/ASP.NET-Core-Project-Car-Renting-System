@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using CarRentingSystem.Services.Cars;
+    using CarRentingSystem.Services.Cars.Models;
 
     using static Data.DataConstants.Car;
 

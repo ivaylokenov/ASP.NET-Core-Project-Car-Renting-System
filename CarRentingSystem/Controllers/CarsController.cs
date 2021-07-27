@@ -1,5 +1,6 @@
 ﻿namespace CarRentingSystem.Controllers
 {
+    using AutoMapper;
     using CarRentingSystem.Infrastructure;
     using CarRentingSystem.Models.Cars;
     using CarRentingSystem.Services.Cars;
@@ -11,15 +12,18 @@
     {
         private readonly ICarService cars;
         private readonly IDealerService dealers;
+        private readonly IMapper mapper;
 
         public CarsController(
-            ICarService cars, 
-            IDealerService dealers)
+            ICarService cars,
+            IDealerService dealers, 
+            IMapper mapper)
         {
             this.cars = cars;
             this.dealers = dealers;
+            this.mapper = mapper;
         }
-       
+
         public IActionResult All([FromQuery] AllCarsQueryModel query)
         {
             var queryResult = this.cars.All(
@@ -112,16 +116,11 @@
                 return Unauthorized();
             }
 
-            return View(new CarFormModel
-            {
-                Brand = car.Brand,
-                Model = car.Model,
-                Description = car.Description,
-                ImageUrl = car.ImageUrl,
-                Year = car.Year,
-                CategoryId = car.CategoryId,
-                Categories = this.cars.AllCategories()
-            });
+            var carForm = this.mapper.Map<CarFormModel>(car);
+
+            carForm.Categories = this.cars.AllCategories();
+
+            return View(carForm);
         }
 
         [HttpPost]

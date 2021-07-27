@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using CarRentingSystem.Models;
+    using CarRentingSystem.Services.Cars.Models;
 
     public interface ICarService
     {

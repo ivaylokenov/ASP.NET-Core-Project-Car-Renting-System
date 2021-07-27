@@ -2,6 +2,7 @@
 {
     using CarRentingSystem.Models.Api.Cars;
     using CarRentingSystem.Services.Cars;
+    using CarRentingSystem.Services.Cars.Models;
     using Microsoft.AspNetCore.Mvc;
 
     [ApiController]
