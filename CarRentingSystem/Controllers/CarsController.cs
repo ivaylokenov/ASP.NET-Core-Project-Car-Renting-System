@@ -41,7 +41,7 @@
 
             return View(query);
         }
-
+        
         [Authorize]
         public IActionResult Mine()
         {

@@ -1,36 +1,28 @@
 ﻿namespace CarRentingSystem.Controllers
 {
     using System.Linq;
-    using AutoMapper;
-    using AutoMapper.QueryableExtensions;
-    using CarRentingSystem.Data;
     using CarRentingSystem.Models.Home;
+    using CarRentingSystem.Services.Cars;
     using CarRentingSystem.Services.Statistics;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : Controller
     {
+        private readonly ICarService cars;
         private readonly IStatisticsService statistics;
-        private readonly IConfigurationProvider mapper;
-        private readonly CarRentingDbContext data;
 
         public HomeController(
-            IStatisticsService statistics,
-            IMapper mapper,
-            CarRentingDbContext data)
+            ICarService cars,
+            IStatisticsService statistics)
         {
+            this.cars = cars;
             this.statistics = statistics;
-            this.mapper = mapper.ConfigurationProvider;
-            this.data = data;
         }
 
         public IActionResult Index()
         {
-            var cars = this.data
-                .Cars
-                .OrderByDescending(c => c.Id)
-                .ProjectTo<CarIndexViewModel>(this.mapper)
-                .Take(3)
+            var latestCars = this.cars
+                .Latest()
                 .ToList();
 
             var totalStatistics = this.statistics.Total();
@@ -39,7 +31,7 @@
             {
                 TotalCars = totalStatistics.TotalCars,
                 TotalUsers = totalStatistics.TotalUsers,
-                Cars = cars
+                Cars = latestCars
             });
         }
 

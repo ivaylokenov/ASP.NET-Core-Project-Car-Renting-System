@@ -63,6 +63,14 @@
             };
         }
 
+        public IEnumerable<LatestCarServiceModel> Latest()
+            => this.data
+                .Cars
+                .OrderByDescending(c => c.Id)
+                .ProjectTo<LatestCarServiceModel>(this.mapper)
+                .Take(3)
+                .ToList();
+
         public CarDetailsServiceModel Details(int id)
             => this.data
                 .Cars
