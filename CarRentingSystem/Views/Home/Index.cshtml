@@ -1,10 +1,10 @@
-﻿@model IndexViewModel
+﻿@model List<LatestCarServiceModel>
 
 @{
     ViewBag.Title = "Welcome!";
 }
 
-@if (!Model.Cars.Any())
+@if (!Model.Any())
 {
     <div class="jumbotron">
         <h1 class="display-4">Welcome to the best place for renting cars!</h1>
@@ -20,9 +20,9 @@
 
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
     <div class="carousel-inner">
-        @for (int i = 0; i < Model.Cars.Count; i++)
+        @for (int i = 0; i < Model.Count; i++)
         {
-            var car = Model.Cars[i];
+            var car = Model[i];
             <div class="carousel-item @(i == 0 ? "active" : string.Empty)">
                 <img class="d-block w-100" src="@car.ImageUrl" alt="@car.Brand @car.Model">
                 <div class="carousel-caption d-none d-md-block">
