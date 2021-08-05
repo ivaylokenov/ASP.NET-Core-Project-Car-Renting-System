@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CarServiceModel>
+
+@{
+    ViewBag.Title = "Become Dealer";
+}
+
+<h1>All Cars</h1>
+
+<table class="table table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Brand</th>
+            <th scope="col">Model</th>
+            <th scope="col">Year</th>
+            <th scope="col">Category</th>
+            <th scope="col">Approved</th>
+            <th scope="col"></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model)
+        {
+        <tr>
+            <td scope="col">@car.Id</td>
+            <td scope="col">@car.Brand</td>
+            <td scope="col">@car.Model</td>
+            <td scope="col">@car.Year</td>
+            <td scope="col">@car.CategoryName</td>
+            <td scope="col">@(car.IsPublic ? "Yes" : "No")</td>
+            <td scope="col">
+                <a asp-area="" asp-controller="Cars" asp-action="Delete" asp-route-id="@car.Id" class="btn btn-danger float-right ml-3">Delete</a>
+                <a asp-area="" asp-controller="Cars" asp-action="Edit" asp-route-id="@car.Id" class="btn btn-warning float-right ml-3">Edit</a>
+                <a asp-area="Admin" asp-controller="Cars" asp-action="ChangeVisibility" asp-route-id="@car.Id" class="btn btn-info float-right ml-3">@(car.IsPublic ? "Hide" : "Show")</a>
+                <a asp-area="" asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" asp-route-information="@car.GetInformation()" class="btn btn-primary float-right ml-3">View</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

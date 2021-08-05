@@ -1,4 +1,4 @@
-﻿namespace CarRentingSystem.Infrastructure
+﻿namespace CarRentingSystem.Infrastructure.Extensions
 {
     using System;
     using System.Linq;

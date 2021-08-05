@@ -8,7 +8,7 @@
                 <img class="card-img-top" src="@car.ImageUrl" alt="@car.Brand @car.Model - @car.Year (@car.CategoryName)">
                 <div class="card-body text-center">
                     <h5 class="card-title text-center">@car.Year  @car.Brand @car.Model (@car.CategoryName)</h5>
-                    <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" class="btn btn-primary">View</a>
+                    <a asp-controller="Cars" asp-action="Details" asp-route-id="@car.Id" asp-route-information="@car.GetInformation()" class="btn btn-primary">View</a>
                     @if (ViewBag.AllowCarEdit == true || User.IsAdmin())
                     {
                         <a asp-controller="Cars" asp-action="Edit" asp-route-id="@car.Id" class="btn btn-warning">Edit</a>

@@ -21,13 +21,15 @@
 		}
 
         public CarQueryServiceModel All(
-            string brand,
-            string searchTerm,
-            CarSorting sorting,
-            int currentPage,
-            int carsPerPage)
+            string brand = null,
+            string searchTerm = null,
+            CarSorting sorting = CarSorting.DateCreated,
+            int currentPage = 1,
+            int carsPerPage = int.MaxValue,
+            bool publicOnly = true)
         {
-            var carsQuery = this.data.Cars.AsQueryable();
+            var carsQuery = this.data.Cars
+                .Where(c => !publicOnly || c.IsPublic);
 
             if (!string.IsNullOrWhiteSpace(brand))
             {
@@ -66,6 +68,7 @@
         public IEnumerable<LatestCarServiceModel> Latest()
             => this.data
                 .Cars
+                .Where(c => c.IsPublic)
                 .OrderByDescending(c => c.Id)
                 .ProjectTo<LatestCarServiceModel>(this.mapper)
                 .Take(3)
@@ -88,7 +91,8 @@
                 ImageUrl = imageUrl,
                 Year = year,
                 CategoryId = categoryId,
-                DealerId = dealerId
+                DealerId = dealerId,
+                IsPublic = false
             };
 
             this.data.Cars.Add(carData);
@@ -97,7 +101,15 @@
             return carData.Id;
         }
 
-        public bool Edit(int id, string brand, string model, string description, string imageUrl, int year, int categoryId)
+        public bool Edit(
+            int id, 
+            string brand, 
+            string model, 
+            string description, 
+            string imageUrl, 
+            int year, 
+            int categoryId,
+            bool isPublic)
         {
             var carData = this.data.Cars.Find(id);
 
@@ -112,6 +124,7 @@
             carData.ImageUrl = imageUrl;
             carData.Year = year;
             carData.CategoryId = categoryId;
+            carData.IsPublic = isPublic;
 
             this.data.SaveChanges();
 
@@ -128,6 +141,15 @@
                 .Cars
                 .Any(c => c.Id == carId && c.DealerId == dealerId);
 
+        public void ChangeVisility(int carId)
+        {
+            var car = this.data.Cars.Find(carId);
+
+            car.IsPublic = !car.IsPublic;
+
+            this.data.SaveChanges();
+        }
+
         public IEnumerable<string> AllBrands()
             => this.data
                 .Cars
@@ -139,11 +161,7 @@
         public IEnumerable<CarCategoryServiceModel> AllCategories()
             => this.data
                 .Categories
-                .Select(c => new CarCategoryServiceModel
-                {
-                    Id = c.Id,
-                    Name = c.Name
-                })
+                .ProjectTo<CarCategoryServiceModel>(this.mapper)
                 .ToList();
 
         public bool CategoryExists(int categoryId)
@@ -151,17 +169,9 @@
                 .Categories
                 .Any(c => c.Id == categoryId);
 
-        private static IEnumerable<CarServiceModel> GetCars(IQueryable<Car> carQuery)
+        private IEnumerable<CarServiceModel> GetCars(IQueryable<Car> carQuery)
             => carQuery
-                .Select(c => new CarServiceModel
-                {
-                    Id = c.Id,
-                    Brand = c.Brand,
-                    Model = c.Model,
-                    Year = c.Year,
-                    ImageUrl = c.ImageUrl,
-                    CategoryName = c.Category.Name
-                })
+                .ProjectTo<CarServiceModel>(this.mapper)
                 .ToList();
     }
 }

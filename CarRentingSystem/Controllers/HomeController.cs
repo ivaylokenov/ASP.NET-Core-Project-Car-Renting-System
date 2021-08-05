@@ -20,7 +20,7 @@
             this.cars = cars;
             this.cache = cache;
         }
-
+        
         public IActionResult Index()
         {
             const string latestCarsCacheKey = "LatestCarsCacheKey";

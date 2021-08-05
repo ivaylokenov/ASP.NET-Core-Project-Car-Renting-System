@@ -7,11 +7,12 @@
     public interface ICarService
     {
         CarQueryServiceModel All(
-            string brand,
-            string searchTerm,
-            CarSorting sorting,
-            int currentPage,
-            int carsPerPage);
+            string brand = null,
+            string searchTerm = null,
+            CarSorting sorting = CarSorting.DateCreated, 
+            int currentPage = 1,
+            int carsPerPage = int.MaxValue,
+            bool publicOnly = true);
 
         IEnumerable<LatestCarServiceModel> Latest();
 
@@ -33,11 +34,14 @@
             string description,
             string imageUrl,
             int year,
-            int categoryId);
+            int categoryId,
+            bool isPublic);
 
         IEnumerable<CarServiceModel> ByUser(string userId);
 
         bool IsByDealer(int carId, int dealerId);
+
+        void ChangeVisility(int carId);
 
         IEnumerable<string> AllBrands();
 

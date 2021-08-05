@@ -6,7 +6,7 @@
 
     using static Data.DataConstants.Car;
 
-    public class CarFormModel
+    public class CarFormModel : ICarModel
     {
         [Required]
         [StringLength(BrandMaxLength, MinimumLength = BrandMinLength)]

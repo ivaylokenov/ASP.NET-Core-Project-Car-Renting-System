@@ -1,6 +1,6 @@
 ﻿namespace CarRentingSystem.Services.Cars.Models
 {
-    public class CarServiceModel
+    public class CarServiceModel : ICarModel
     {
         public int Id { get; init; }
 
@@ -13,5 +13,7 @@
         public int Year { get; init; }
 
         public string CategoryName { get; init; }
+
+        public bool IsPublic { get; init; }
     }
 }
