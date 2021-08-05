@@ -167,7 +167,7 @@
                 return BadRequest();
             }
 
-            this.cars.Edit(
+            var edited = this.cars.Edit(
                 id,
                 car.Brand,
                 car.Model,
@@ -176,6 +176,11 @@
                 car.Year,
                 car.CategoryId,
                 this.User.IsAdmin());
+
+            if (!edited)
+            {
+                return BadRequest();
+            }
 
             TempData[GlobalMessageKey] = $"You car was edited{(this.User.IsAdmin() ? string.Empty : " and is awaiting for approval")}!";
 
